@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 
-# Create your views here.
 def myfunctioncall(request):
     return HttpResponse("Hello World")
 
@@ -18,5 +17,5 @@ def intro(request,name,age):
         }
     return JsonResponse(mydictionary)
 
-def myfirstpage(request):
+def page(request):
     return render(request,'index.html')
