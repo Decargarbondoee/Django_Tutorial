@@ -9,5 +9,9 @@ urlpatterns = [
     path('page',views.page,name="page"),
     path('second',views.second,name="pagetwo"),
     path('third',views.third,name="pagethree"),
-    path('myimagepage',views.myimagepage,name='myimagepage')
+    path('myimagepage',views.myimagepage,name='myimagepage'),
+    path('myimagepage2',views.myimagepage2,name='myimagepage2'),
+    path('myimagepage3',views.myimagepage3,name='myimagepage3'),
+    path('myimagepage4',views.myimagepage4,name='myimagepage4'),
+    path('myimagepage5/<str:imagename>',views.myimagepage5,name='myimagepage5')
 ]
