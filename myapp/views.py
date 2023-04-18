@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
+from .forms import *
 
 def myfunctioncall(request):
     return HttpResponse("Hello World")
@@ -64,3 +65,48 @@ def myimagepage5(request,imagename):
         "var":var
     }
     return render(request,'imagepage5.html',context=mydictionary)
+
+def myform(request):
+    return render(request,'myform.html')
+
+def submitmyform(request):
+    mydictionary ={
+        "var1" : request.POST['mytext'],
+        "var2" : request.POST['mytextarea'],
+        "method" : request.method
+    }
+    return JsonResponse(mydictionary)
+
+def myform2(request):
+    if request.method == "POST":
+        form = feedbackForm(request.POST)
+        if form.is_valid():
+            title = request.POST['title']
+            subject = request.POST['subject']
+            mydictionary = {
+                "form" : feedbackForm()
+            }
+            if title != title.upper():
+                mydictionary["error"] = True
+                mydictionary["errormsg"] = "Title should be in Capital"
+                return render(request,'myform2.html',context=mydictionary)
+            
+            else:
+                mydictionary["success"] = True
+                mydictionary["successmsg"] = "Form Submitted"
+                return render(request,'myform2.html',context=mydictionary)
+            #print(title)
+            #print(subject)
+            #var = ("form Submitted " + str(request.method))
+            #return HttpResponse(var)
+        else:
+            mydictionary = {
+                "form" : form
+            }
+            return render(request,'myform2.html',context=mydictionary)      
+    elif request.method == "GET":
+        form = feedbackForm() # FeedbackForm(None)
+        mydictionary = {
+           "form" : form 
+        }
+        return render(request,'myform2.html',context=mydictionary)
