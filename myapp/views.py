@@ -83,18 +83,29 @@ def myform2(request):
         if form.is_valid():
             title = request.POST['title']
             subject = request.POST['subject']
+            email = request.POST['email'] 
             mydictionary = {
                 "form" : feedbackForm()
             }
+            errorflag = False
+            Errors = []
             if title != title.upper():
-                mydictionary["error"] = True
-                mydictionary["errormsg"] = "Title should be in Capital"
-                return render(request,'myform2.html',context=mydictionary)
-            
-            else:
+                errorflag = True
+                errormsg = "Title should be Capital"
+                Errors.append(errormsg)
+            import re
+            regex = '^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$'
+            if not re.search(regex,email):
+                errorflag = True
+                errormsg = "Not a valid Email address"
+                Errors.append(errormsg)
+            if errorflag != True:
                 mydictionary["success"] = True
                 mydictionary["successmsg"] = "Form Submitted"
-                return render(request,'myform2.html',context=mydictionary)
+            mydictionary["error"] = errorflag
+            mydictionary["errors"] = Errors
+            print(mydictionary)
+            return render(request,'myform2.html',context=mydictionary)
             #print(title)
             #print(subject)
             #var = ("form Submitted " + str(request.method))
